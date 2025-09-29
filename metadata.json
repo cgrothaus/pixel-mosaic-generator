@@ -1,4 +1,3 @@
-
 {
   "name": "Pixel Mosaic Generator",
   "description": "A web-based application for creating colorful, geometric patterns in a pixel-art style. Users can adjust grid size, select different generation algorithms, and choose from various color palettes to produce unique mosaics, which can then be exported as PNG or SVG files."

@@ -1,6 +1,5 @@
-
 const triggerDownload = (href: string, filename: string) => {
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = href;
   link.download = filename;
   document.body.appendChild(link);
@@ -9,8 +8,8 @@ const triggerDownload = (href: string, filename: string) => {
 };
 
 const getCurrentBorderColor = (): string => {
-  const isDark = document.documentElement.classList.contains('dark');
-  return isDark ? '#4b5563' : '#e5e7eb'; // gray-600 : gray-200
+  const isDark = document.documentElement.classList.contains("dark");
+  return isDark ? "#4b5563" : "#e5e7eb"; // gray-600 : gray-200
 };
 
 export const exportSVG = (svgElement: SVGSVGElement, filename: string) => {
@@ -19,16 +18,16 @@ export const exportSVG = (svgElement: SVGSVGElement, filename: string) => {
   const borderColor = getCurrentBorderColor();
 
   // Replace all stroke attributes that use CSS variables
-  const rects = svgClone.querySelectorAll('rect[stroke]');
-  rects.forEach(rect => {
-    const stroke = rect.getAttribute('stroke');
-    if (stroke?.includes('var(--pixel-border-color)')) {
-      rect.setAttribute('stroke', borderColor);
+  const rects = svgClone.querySelectorAll("rect[stroke]");
+  rects.forEach((rect) => {
+    const stroke = rect.getAttribute("stroke");
+    if (stroke?.includes("var(--pixel-border-color)")) {
+      rect.setAttribute("stroke", borderColor);
     }
   });
 
   const svgData = new XMLSerializer().serializeToString(svgClone);
-  const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+  const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   triggerDownload(url, filename);
   URL.revokeObjectURL(url);
@@ -45,11 +44,11 @@ export const exportPNG = (
   const borderColor = getCurrentBorderColor();
 
   // Replace all stroke attributes that use CSS variables
-  const rects = svgClone.querySelectorAll('rect[stroke]');
-  rects.forEach(rect => {
-    const stroke = rect.getAttribute('stroke');
-    if (stroke?.includes('var(--pixel-border-color)')) {
-      rect.setAttribute('stroke', borderColor);
+  const rects = svgClone.querySelectorAll("rect[stroke]");
+  rects.forEach((rect) => {
+    const stroke = rect.getAttribute("stroke");
+    if (stroke?.includes("var(--pixel-border-color)")) {
+      rect.setAttribute("stroke", borderColor);
     }
   });
 
@@ -60,14 +59,14 @@ export const exportPNG = (
   const img = new Image();
 
   img.onload = () => {
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     const EXPORT_SIZE = 2000;
     const scale = EXPORT_SIZE / Math.max(width, height);
 
     canvas.width = width * scale;
     canvas.height = height * scale;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     ctx.imageSmoothingEnabled = false; // Preserve sharp pixel edges
@@ -79,7 +78,7 @@ export const exportPNG = (
         triggerDownload(url, filename);
         URL.revokeObjectURL(url);
       }
-    }, 'image/png');
+    }, "image/png");
   };
 
   img.src = svgDataUrl;
