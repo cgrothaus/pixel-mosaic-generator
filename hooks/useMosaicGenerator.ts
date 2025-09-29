@@ -38,6 +38,19 @@ export const useMosaicGenerator = ({
             colorIndex = (Math.floor(distance) + offset + startColorOffset) % palette.length;
             break;
           }
+          case PatternType.DIAMOND_PARQUET: {
+            // Create a tiled version where the corner of concentric diamonds is at center
+            // Shift the pattern by half the tile size to create parquet effect
+            const tileSize = palette.length * 2; // Size of one complete diamond cycle
+            const shiftedX = (x + Math.floor(tileSize / 2)) % tileSize;
+            const shiftedY = (y + Math.floor(tileSize / 2)) % tileSize;
+            const tileCenterX = Math.floor(tileSize / 2);
+            const tileCenterY = Math.floor(tileSize / 2);
+            const distance = Math.abs(shiftedX - tileCenterX) + Math.abs(shiftedY - tileCenterY);
+            const offset = palette.length > 2 ? palette.length - 2 : 0;
+            colorIndex = (Math.floor(distance) + offset + startColorOffset) % palette.length;
+            break;
+          }
           case PatternType.DIAGONAL_STRIPES: {
             const value = x + y;
             colorIndex = (value + startColorOffset) % palette.length;
