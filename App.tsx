@@ -7,8 +7,8 @@ import Canvas from './components/Canvas';
 import Controls from './components/Controls';
 
 const App: React.FC = () => {
-  const [width, setWidth] = useState<number>(30);
-  const [height, setHeight] = useState<number>(30);
+  const [width, setWidth] = useState<number>(29);
+  const [height, setHeight] = useState<number>(29);
   const [patternType, setPatternType] = useState<PatternType>(PatternType.CONCENTRIC_DIAMONDS);
   const [paletteName, setPaletteName] = useState<PaletteName>(PaletteName.RAINBOW);
   const [seed, setSeed] = useState<number>(() => Date.now());

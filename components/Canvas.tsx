@@ -8,12 +8,16 @@ interface CanvasProps {
 }
 
 const Canvas = forwardRef<SVGSVGElement, CanvasProps>(({ cells, width, height }, ref) => {
+  const strokeWidth = 0.025;
+  // Add a small padding to the viewBox to ensure strokes at the edges are not cut off
+  const padding = strokeWidth / 2 + 0.01; 
+
   return (
     <div className="w-full h-full max-w-[85vh] max-h-[85vh] aspect-square flex items-center justify-center">
         <svg
             ref={ref}
             xmlns="http://www.w3.org/2000/svg"
-            viewBox={`-0.5 -0.5 ${width} ${height}`}
+            viewBox={`${-padding} ${-padding} ${width + padding * 2} ${height + padding * 2}`}
             className="w-full h-full shadow-lg rounded-lg bg-white dark:bg-gray-800"
             shapeRendering="crispEdges"
         >
@@ -27,7 +31,7 @@ const Canvas = forwardRef<SVGSVGElement, CanvasProps>(({ cells, width, height },
                 height="1"
                 fill={cell.color}
                 stroke="var(--pixel-border-color)"
-                strokeWidth="0.025"
+                strokeWidth={strokeWidth}
                 />
             ))}
             </g>

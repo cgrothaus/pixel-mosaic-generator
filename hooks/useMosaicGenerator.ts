@@ -1,4 +1,3 @@
-
 import { useMemo } from 'react';
 import { PatternType, PaletteName, Cell } from '../types';
 import { COLOR_PALETTES } from '../constants';
@@ -31,7 +30,10 @@ export const useMosaicGenerator = ({
         switch (patternType) {
           case PatternType.CONCENTRIC_DIAMONDS: {
             const distance = Math.abs(x - centerX) + Math.abs(y - centerY);
-            colorIndex = Math.floor(distance) % palette.length;
+            // The user-provided image shows this pattern starting with purple (index 6 in the default rainbow palette) at the center.
+            // Adding an offset to match the reference image.
+            const offset = palette.length > 2 ? palette.length - 2 : 0;
+            colorIndex = (Math.floor(distance) + offset) % palette.length;
             break;
           }
           case PatternType.DIAGONAL_STRIPES: {
