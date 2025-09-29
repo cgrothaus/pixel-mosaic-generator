@@ -102,6 +102,34 @@ export const useMosaicGenerator = ({
             colorIndex = (Math.floor(spiralValue) + startColorOffset) % palette.length;
             break;
           }
+          case PatternType.HEART: {
+            // Heart shape using mathematical heart equation
+            // Create concentric hearts that grow outward to fill the entire canvas
+            const baseScale = Math.min(width, height) / 12; // Start with smaller hearts
+            const normXBase = (x - centerX);
+            const normYBase = -(y - centerY - 1) + baseScale * 0.3; // Flip Y, move down by 1 row, and shift slightly up for better centering
+
+            let distance = palette.length; // Default to outermost color
+
+            // Test multiple heart scales from small to large
+            for (let scaleStep = 0; scaleStep < palette.length * 2; scaleStep++) {
+              const currentScale = baseScale * (0.5 + scaleStep * 0.3); // Gradually increase scale
+              const normX = normXBase / currentScale;
+              const normY = normYBase / currentScale;
+
+              // Heart equation: (x² + y² - 1)³ - x²y³ = 0
+              const heartValue = Math.pow(normX * normX + normY * normY - 1, 3) - normX * normX * Math.pow(normY, 3);
+
+              if (heartValue <= 0) {
+                // Inside this heart scale - use this distance
+                distance = scaleStep;
+                break;
+              }
+            }
+
+            colorIndex = (distance + startColorOffset) % palette.length;
+            break;
+          }
           case PatternType.RANDOM: {
             // Simple pseudo-random using seed to be deterministic
             const randomValue = Math.sin(x * 12.9898 + y * 78.233 + seed) * 43758.5453;

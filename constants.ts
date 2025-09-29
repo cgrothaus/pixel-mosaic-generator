@@ -15,6 +15,7 @@ export const PATTERN_OPTIONS: { value: PatternType; label: string }[] = [
   { value: PatternType.DIAGONAL_STRIPES, label: 'Diagonal Stripes' },
   { value: PatternType.SYMMETRIC_CROSS, label: 'Symmetric Cross' },
   { value: PatternType.SPIRAL, label: 'Spiral' },
+  { value: PatternType.HEART, label: 'Heart' },
   { value: PatternType.RANDOM, label: 'Random' },
 ];
 
