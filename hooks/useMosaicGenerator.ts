@@ -38,6 +38,28 @@ export const useMosaicGenerator = ({
             colorIndex = (Math.floor(distance) + offset + startColorOffset) % palette.length;
             break;
           }
+          case PatternType.CORNER_DIAMONDS: {
+            // Swap triangular segments: each quadrant shows diamonds from opposite corner
+            let distance;
+
+            if (x < centerX && y < centerY) {
+              // Upper left quadrant: show diamonds from upper right corner
+              distance = Math.abs(x - (width - 1)) + Math.abs(y - 0);
+            } else if (x >= centerX && y < centerY) {
+              // Upper right quadrant: show diamonds from upper left corner
+              distance = Math.abs(x - 0) + Math.abs(y - 0);
+            } else if (x < centerX && y >= centerY) {
+              // Lower left quadrant: show diamonds from lower right corner
+              distance = Math.abs(x - (width - 1)) + Math.abs(y - (height - 1));
+            } else {
+              // Lower right quadrant: show diamonds from lower left corner
+              distance = Math.abs(x - 0) + Math.abs(y - (height - 1));
+            }
+
+            const offset = palette.length > 2 ? palette.length - 2 : 0;
+            colorIndex = (Math.floor(distance) + offset + startColorOffset) % palette.length;
+            break;
+          }
           case PatternType.DIAMOND_PARQUET: {
             // Create a tiled version where the corner of concentric diamonds is at center
             // Shift the pattern by half the tile size to create parquet effect
