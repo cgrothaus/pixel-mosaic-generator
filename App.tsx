@@ -3,6 +3,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import { PatternType, PaletteName } from './types';
 import { useMosaicGenerator } from './hooks/useMosaicGenerator';
 import { exportSVG, exportPNG } from './utils/exportUtils';
+import { COLOR_PALETTES } from './constants';
 import Canvas from './components/Canvas';
 import Controls from './components/Controls';
 
@@ -12,14 +13,20 @@ const App: React.FC = () => {
   const [patternType, setPatternType] = useState<PatternType>(PatternType.CONCENTRIC_DIAMONDS);
   const [paletteName, setPaletteName] = useState<PaletteName>(PaletteName.RAINBOW);
   const [seed, setSeed] = useState<number>(() => Date.now());
+  const [startColorOffset, setStartColorOffset] = useState<number>(0);
 
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const cells = useMosaicGenerator({ width, height, patternType, paletteName, seed });
+  const cells = useMosaicGenerator({ width, height, patternType, paletteName, seed, startColorOffset });
 
   const handleRegenerate = useCallback(() => {
     setSeed(Date.now());
   }, []);
+
+  const handleChangeStartColor = useCallback(() => {
+    const palette = COLOR_PALETTES[paletteName];
+    setStartColorOffset((prev) => (prev + 1) % palette.length);
+  }, [paletteName]);
 
   const handleExportSVG = useCallback(() => {
     if (svgRef.current) {
@@ -45,7 +52,9 @@ const App: React.FC = () => {
           setPatternType={setPatternType}
           paletteName={paletteName}
           setPaletteName={setPaletteName}
+          startColorOffset={startColorOffset}
           onRegenerate={handleRegenerate}
+          onChangeStartColor={handleChangeStartColor}
           onExportSVG={handleExportSVG}
           onExportPNG={handleExportPNG}
         />

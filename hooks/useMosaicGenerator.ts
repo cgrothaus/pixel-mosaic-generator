@@ -8,6 +8,7 @@ interface MosaicGeneratorProps {
   patternType: PatternType;
   paletteName: PaletteName;
   seed: number;
+  startColorOffset: number;
 }
 
 export const useMosaicGenerator = ({
@@ -16,6 +17,7 @@ export const useMosaicGenerator = ({
   patternType,
   paletteName,
   seed,
+  startColorOffset,
 }: MosaicGeneratorProps): Cell[] => {
   const cells = useMemo(() => {
     const newCells: Cell[] = [];
@@ -33,34 +35,34 @@ export const useMosaicGenerator = ({
             // The user-provided image shows this pattern starting with purple (index 6 in the default rainbow palette) at the center.
             // Adding an offset to match the reference image.
             const offset = palette.length > 2 ? palette.length - 2 : 0;
-            colorIndex = (Math.floor(distance) + offset) % palette.length;
+            colorIndex = (Math.floor(distance) + offset + startColorOffset) % palette.length;
             break;
           }
           case PatternType.DIAGONAL_STRIPES: {
             const value = x + y;
-            colorIndex = value % palette.length;
+            colorIndex = (value + startColorOffset) % palette.length;
             break;
           }
           case PatternType.SYMMETRIC_CROSS: {
             const distX = Math.abs(x - centerX);
             const distY = Math.abs(y - centerY);
             const value = Math.min(distX, distY);
-            colorIndex = Math.floor(value) % palette.length;
+            colorIndex = (Math.floor(value) + startColorOffset) % palette.length;
             break;
           }
           case PatternType.RANDOM: {
             // Simple pseudo-random using seed to be deterministic
             const randomValue = Math.sin(x * 12.9898 + y * 78.233 + seed) * 43758.5453;
-            colorIndex = Math.floor(Math.abs(randomValue) * palette.length) % palette.length;
+            colorIndex = (Math.floor(Math.abs(randomValue) * palette.length) + startColorOffset) % palette.length;
             break;
           }
         }
-        
+
         newCells.push({ x, y, color: palette[colorIndex] });
       }
     }
     return newCells;
-  }, [width, height, patternType, paletteName, seed]);
+  }, [width, height, patternType, paletteName, seed, startColorOffset]);
 
   return cells;
 };

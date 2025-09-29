@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { PatternType, PaletteName } from '../types';
-import { PATTERN_OPTIONS, PALETTE_OPTIONS } from '../constants';
+import { PATTERN_OPTIONS, PALETTE_OPTIONS, COLOR_PALETTES } from '../constants';
 import Slider from './Slider';
 import Select from './Select';
 import Button from './Button';
@@ -15,7 +15,9 @@ interface ControlsProps {
   setPatternType: (value: PatternType) => void;
   paletteName: PaletteName;
   setPaletteName: (value: PaletteName) => void;
+  startColorOffset: number;
   onRegenerate: () => void;
+  onChangeStartColor: () => void;
   onExportSVG: () => void;
   onExportPNG: () => void;
 }
@@ -23,8 +25,9 @@ interface ControlsProps {
 const Controls: React.FC<ControlsProps> = ({
   width, setWidth, height, setHeight,
   patternType, setPatternType, paletteName, setPaletteName,
-  onRegenerate, onExportSVG, onExportPNG
+  startColorOffset, onRegenerate, onChangeStartColor, onExportSVG, onExportPNG
 }) => {
+  const currentStartColor = COLOR_PALETTES[paletteName][startColorOffset];
   return (
     <aside className="w-full md:w-80 lg:w-96 bg-white dark:bg-gray-800 p-6 shadow-lg md:shadow-none overflow-y-auto">
       <div className="space-y-8">
@@ -57,14 +60,20 @@ const Controls: React.FC<ControlsProps> = ({
                 onChange={(e) => setPaletteName(e.target.value as PaletteName)}
                 options={PALETTE_OPTIONS}
               />
+              <Button onClick={onChangeStartColor} fullWidth variant="secondary">
+                <div className="flex items-center justify-center space-x-2">
+                  <span>Change start color</span>
+                  <div
+                    className="w-4 h-4 border border-gray-400 dark:border-gray-500"
+                    style={{ backgroundColor: currentStartColor }}
+                  />
+                </div>
+              </Button>
             </div>
           </section>
         </div>
 
         <section className="space-y-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-           <Button onClick={onRegenerate} fullWidth>
-            Regenerate
-          </Button>
           <div className="flex space-x-3">
             <Button onClick={onExportPNG} fullWidth variant="secondary">
               Save as PNG
