@@ -5,12 +5,13 @@ interface CanvasProps {
   cells: Cell[];
   width: number;
   height: number;
+  borderColor?: string;
 }
 
-const Canvas = forwardRef<SVGSVGElement, CanvasProps>(({ cells, width, height }, ref) => {
+const Canvas = forwardRef<SVGSVGElement, CanvasProps>(({ cells, width, height, borderColor }, ref) => {
   const strokeWidth = 0.025;
   // Add a small padding to the viewBox to ensure strokes at the edges are not cut off
-  const padding = strokeWidth / 2 + 0.01; 
+  const padding = strokeWidth / 2 + 0.01;
 
   return (
     <div className="w-full h-full max-w-[85vh] max-h-[85vh] aspect-square flex items-center justify-center">
@@ -30,7 +31,7 @@ const Canvas = forwardRef<SVGSVGElement, CanvasProps>(({ cells, width, height },
                 width="1"
                 height="1"
                 fill={cell.color}
-                stroke="var(--pixel-border-color)"
+                stroke={borderColor || "var(--pixel-border-color)"}
                 strokeWidth={strokeWidth}
                 />
             ))}
