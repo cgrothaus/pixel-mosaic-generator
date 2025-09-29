@@ -50,6 +50,23 @@ export const useMosaicGenerator = ({
             colorIndex = (Math.floor(value) + startColorOffset) % palette.length;
             break;
           }
+          case PatternType.SPIRAL: {
+            // Calculate angle from center point
+            const deltaX = x - centerX;
+            const deltaY = y - centerY;
+            const angle = Math.atan2(deltaY, deltaX);
+
+            // Calculate distance from center
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            // Create spiral by combining angle and distance
+            // Normalize angle to 0-2π range and scale by spiral tightness
+            const normalizedAngle = (angle + Math.PI) / (2 * Math.PI);
+            const spiralValue = normalizedAngle * palette.length + distance * 0.5;
+
+            colorIndex = (Math.floor(spiralValue) + startColorOffset) % palette.length;
+            break;
+          }
           case PatternType.RANDOM: {
             // Simple pseudo-random using seed to be deterministic
             const randomValue = Math.sin(x * 12.9898 + y * 78.233 + seed) * 43758.5453;
