@@ -38,6 +38,12 @@ export const useMosaicGenerator = ({
             colorIndex = (Math.floor(distance) + offset + startColorOffset) % palette.length;
             break;
           }
+          case PatternType.CONCENTRIC_SQUARES: {
+            const distance = Math.max(Math.abs(x - centerX), Math.abs(y - centerY));
+            const offset = palette.length > 2 ? palette.length - 2 : 0;
+            colorIndex = (Math.floor(distance) + offset + startColorOffset) % palette.length;
+            break;
+          }
           case PatternType.CORNER_DIAMONDS: {
             // Swap triangular segments: each quadrant shows diamonds from opposite corner
             let distance;
