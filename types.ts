@@ -13,6 +13,7 @@ export enum PatternType {
 
 export enum PaletteName {
   RAINBOW = 'RAINBOW',
+  RAINBOW_EXTENDED = 'RAINBOW_EXTENDED',
   GRAYSCALE = 'GRAYSCALE',
   SUNSET = 'SUNSET',
   FOREST = 'FOREST',
