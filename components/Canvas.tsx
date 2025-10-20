@@ -31,7 +31,7 @@ const Canvas = forwardRef<SVGSVGElement, CanvasProps>(({ cells, width, height, b
               width="1"
               height="1"
               fill={cell.color}
-              stroke={borderColor || "#00000010"}
+              stroke={borderColor || "var(--pixel-border-color)"}
               strokeWidth={strokeWidth}
             />
           ))}
