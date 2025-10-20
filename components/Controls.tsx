@@ -29,60 +29,75 @@ const Controls: React.FC<ControlsProps> = ({
 }) => {
   const currentStartColor = COLOR_PALETTES[paletteName][startColorOffset];
   return (
-    <aside className="w-full md:w-80 lg:w-96 bg-white dark:bg-gray-800 p-6 shadow-lg md:shadow-none overflow-y-auto">
-      <div className="space-y-8">
-        <header>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Pixel Mosaic Generator</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Create unique geometric patterns.</p>
-        </header>
-
-        <div className="space-y-6">
-          <section>
-            <h2 className="text-lg font-semibold mb-3 text-gray-700 dark:text-gray-300">Grid Settings</h2>
-            <div className="space-y-4">
-              <Slider label="Width" value={width} onChange={setWidth} min={10} max={100} />
-              <Slider label="Height" value={height} onChange={setHeight} min={10} max={100} />
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold mb-3 text-gray-700 dark:text-gray-300">Pattern</h2>
-            <div className="space-y-4">
-              <Select
-                label="Pattern Type"
-                value={patternType}
-                onChange={(e) => setPatternType(e.target.value as PatternType)}
-                options={PATTERN_OPTIONS}
-              />
-              <Select
-                label="Color Palette"
-                value={paletteName}
-                onChange={(e) => setPaletteName(e.target.value as PaletteName)}
-                options={PALETTE_OPTIONS}
-              />
-              <Button onClick={onChangeStartColor} fullWidth variant="secondary">
-                <div className="flex items-center justify-center space-x-2">
-                  <span>Change start color</span>
-                  <div
-                    className="w-4 h-4 border border-gray-400 dark:border-gray-500"
-                    style={{ backgroundColor: currentStartColor }}
-                  />
-                </div>
-              </Button>
-            </div>
-          </section>
+    <aside className="h-2/5 lg:h-auto overflow-y-auto space-y-4 sm:space-y-6 lg:w-[350px] flex-shrink-0">
+      {/* Grid Settings Card */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
+          Grid Settings
+        </h2>
+        <div className="space-y-4">
+          <Slider label="Width" value={width} onChange={setWidth} min={10} max={100} />
+          <Slider label="Height" value={height} onChange={setHeight} min={10} max={100} />
         </div>
+      </div>
 
-        <section className="space-y-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex space-x-3">
-            <Button onClick={onExportPNG} fullWidth variant="secondary">
-              Save as PNG
-            </Button>
-            <Button onClick={onExportSVG} fullWidth variant="secondary">
-              Save as SVG
-            </Button>
-          </div>
-        </section>
+      {/* Pattern Selection Card */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
+          Pattern
+        </h2>
+        <Select
+          label="Pattern Type"
+          value={patternType}
+          onChange={(e) => setPatternType(e.target.value as PatternType)}
+          options={PATTERN_OPTIONS}
+        />
+      </div>
+
+      {/* Color Palette Selection Card */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
+          Color Palette
+        </h2>
+        <Select
+          label="Color Palette"
+          value={paletteName}
+          onChange={(e) => setPaletteName(e.target.value as PaletteName)}
+          options={PALETTE_OPTIONS}
+        />
+        <div className="mt-4">
+          <button
+            onClick={onChangeStartColor}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#DEE1E5] hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white font-medium rounded-lg transition-colors duration-200"
+          >
+            <div
+              className="w-6 h-6 rounded border-2 border-white shadow"
+              style={{ backgroundColor: currentStartColor }}
+            />
+            <span>Change start color</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Export Section Card */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
+          Export
+        </h2>
+        <div className="flex gap-2 sm:gap-3">
+          <button
+            onClick={onExportSVG}
+            className="flex-1 px-4 py-2 bg-[#DEE1E5] hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white font-medium rounded-lg transition-colors duration-200 text-sm sm:text-base"
+          >
+            Save as SVG
+          </button>
+          <button
+            onClick={onExportPNG}
+            className="flex-1 px-4 py-2 bg-[#DEE1E5] hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white font-medium rounded-lg transition-colors duration-200 text-sm sm:text-base"
+          >
+            Save as PNG
+          </button>
+        </div>
       </div>
     </aside>
   );

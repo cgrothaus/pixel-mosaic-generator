@@ -14,12 +14,12 @@ const Canvas = forwardRef<SVGSVGElement, CanvasProps>(({ cells, width, height, b
   const padding = strokeWidth / 2 + 0.01;
 
   return (
-    <div className="w-full h-full max-w-[85vh] max-h-[85vh] aspect-square flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center">
       <svg
         ref={ref}
         xmlns="http://www.w3.org/2000/svg"
         viewBox={`${-padding} ${-padding} ${width + padding * 2} ${height + padding * 2}`}
-        className="w-full h-full shadow-lg rounded-lg bg-white dark:bg-gray-800"
+        className="max-w-full max-h-full shadow-lg rounded-lg bg-white dark:bg-gray-800"
         shapeRendering="crispEdges"
       >
         <g>
@@ -31,7 +31,7 @@ const Canvas = forwardRef<SVGSVGElement, CanvasProps>(({ cells, width, height, b
               width="1"
               height="1"
               fill={cell.color}
-              stroke={borderColor || "var(--pixel-border-color)"}
+              stroke={borderColor || "#00000010"}
               strokeWidth={strokeWidth}
             />
           ))}
